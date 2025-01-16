@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MemberModel extends Model
 {
@@ -56,6 +57,35 @@ class MemberModel extends Model
             $result["status"] = "failed";
             $result["message"] = "Incorrect birthdate entered.";
         }
+        return $result;
+    }
+
+    function getQrCodeRegistration($qrcode){
+        $result["status"] = "success";
+        $memberId =  Crypt::decrypt($qrcode);
+        $member = $this->find($memberId);
+        $name = $member->firstname . " " . $member->middlename . " " . $member->lastname;
+
+        if(!empty($member->updated_by)){
+            $result["status"] = "failed";
+            $result["message"] = $name . " is already registered for the ownership forum.";
+        }else{
+            $result["memberId"] = $member->id;
+            $result["memid"] = $member->memid;
+            $result["pbno"] = $member->pbno;
+            $result["name"] = $name;
+            $result["branch"] = $member->branch;
+        }
+        return $result;
+    }
+
+    function registerMember($id){
+        $result["status"] = "success";
+        $member = $this->find($id);
+        $member->update([
+            "updated_by" => Auth::user()->id,
+            "received_at" => date("Y-m-d H:i:s")
+        ]);
         return $result;
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 //Classes
 use App\Classes\DataTableClass;
@@ -127,5 +128,15 @@ class AdminController extends Controller
 
     function generateReport(Request $request){
         return $this->reportClass->generateReport($request->all());
+    }
+
+    function RegisterQrcode(Request $request){
+        $this->data["titlePage"] = "OWNERSHIP | Register";
+        $this->data["member"] = $this->memberModel->getQrCodeRegistration($request->qrcode); 
+        return view('Components.QrCodeForm',$this->data);
+    }
+
+    function registerMember(Request $request){
+        return $this->memberModel->registerMember($request->memberId);
     }
 }

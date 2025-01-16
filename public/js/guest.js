@@ -77,3 +77,51 @@ $("#generateQrCode").submit((e) => {
 $("#qrCodeOkBtn").click((e) => {
     location.reload();
 });
+
+$("#loginForm").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "userLogin",
+        data: $(e.currentTarget).serializeArray(),
+        success: (res) => {
+            if(res.status == "failed"){
+                $(".error-text").removeClass("d-none").text(res.message);
+                setTimeout(() => {
+                    $(".error-text").addClass("d-none");
+                },3000);
+            }else{
+                location.reload();
+            }
+        }
+    });
+});
+
+$("#showPassword").change((e)  => {
+    if($(e.currentTarget).is(":checked")){
+        $("#password").attr("type", "text");
+    }else{
+        $("#password").attr("type", "password");
+    }
+});
+
+$("#registerMemberForm").submit((e) => {
+    e.preventDefault();
+    $.LoadingOverlay("show");
+    $.ajax({
+        type: "POST",
+        url: "/admin/registerMember",
+        data: $(e.currentTarget).serializeArray(),
+        success: (res) => {
+            Swal.fire({
+                title: "You have successfully registered.",
+                icon: res.status,
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                location.reload();
+            });
+        }
+    });
+});

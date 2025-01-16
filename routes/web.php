@@ -25,6 +25,7 @@ Route::middleware(['guest'])->group(
         //post route
         Route::post('searchAccount', [GuestController::class, 'searchAccount']);
         Route::post('saveQrCode', [GuestController::class, 'saveQrCode']);
+        Route::post('userLogin', [GuestController::class, 'userLogin']);
     }
 );
 
@@ -47,5 +48,6 @@ Route::prefix('admin')->middleware(['auth'])->group(
         Route::post('/createUpdateMember', [AdminController::class, 'createUpdateMember']);
         Route::post('/getMember', [AdminController::class, 'getMember']);
         Route::post('/generateReport', [AdminController::class, 'generateReport'])->name('admin.report');
+        Route::post('/registerMember', [AdminController::class, 'registerMember']);
     }
 );

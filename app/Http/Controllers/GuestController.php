@@ -11,13 +11,14 @@ use App\Models\MemberModel;
 
 class GuestController extends Controller
 {
-    protected $data, $memberModel;
+    protected $data, $memberModel, $userModel;
 
     public function __construct()
     {
         $this->middleware('guest');
         $this->data = array();
         $this->memberModel = new MemberModel();
+        $this->userModel = new User();
     }
 
     function Index(){
@@ -36,5 +37,9 @@ class GuestController extends Controller
 
     function saveQrCode(Request $request){
         return $this->memberModel->saveQrCode($request);
+    }
+
+    function userLogin(Request $request){
+        return $this->userModel->login($request);
     }
 }
