@@ -27,6 +27,7 @@ $("#SearchMemberForm").submit((e) => {
                 $(".qrcodeContainer").addClass("d-none");
                 $(".verifyMemberCon").removeClass("d-none");
                 $(".verifyContainer").empty();
+                $(".titleVerify").text("Please verify your account");
                 res.member.forEach(member => {
                     let name = member.firstname + " " + member.middlename + " " + member.lastname;
                     let pbno = member.pbno != null ? member.pbno : "No Data";
@@ -38,6 +39,7 @@ $("#SearchMemberForm").submit((e) => {
                         $("#generateQrCode").find("input[name='memidPbno']").val(memidPbno);
                         $(".qrcodeContainer").removeClass("d-none");
                         $(".verifyContainer").empty();
+                        $(".titleVerify").text("Please input your birthdate");
                     });
                     $(".verifyContainer").append(verifyElement);
                 });

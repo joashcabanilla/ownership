@@ -24,7 +24,7 @@
                     </form>
                 </div>
                 <div class="card-body verifyMemberCon d-none">
-                    <h5><b>Please verify your account</b></h5>
+                    <h5><b class = "titleVerify">Please verify your account</b></h5>
                     <div class="verifyContainer">
                     </div>
                     <div class="qrcodeContainer d-none">
@@ -42,7 +42,7 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-block font-weight-bold">Generate QR Code</button>
+                                    <button type="submit" class="btn btn-primary btn-block font-weight-bold">Register</button>
                                 </div>
                             </div>
                         </form>
