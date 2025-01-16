@@ -8,7 +8,7 @@
             </div>
             <div class="card-body">
                 @if($member["status"] != "success")
-                    <h5 class="font-weight-bold text-success">{{$member["message"]}}</h5>
+                    <h4 class="font-weight-bold text-success text-center">{{$member["message"]}}</h4>
                 @else
                     <h5><b>Ownership Forum Registration</b></h5>
                     <form id="registerMemberForm" method="POST">
