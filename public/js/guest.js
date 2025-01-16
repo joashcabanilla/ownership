@@ -113,6 +113,7 @@ $("#registerMemberForm").submit((e) => {
         url: "/admin/registerMember",
         data: $(e.currentTarget).serializeArray(),
         success: (res) => {
+            $.LoadingOverlay("hide");
             Swal.fire({
                 title: "You have successfully registered.",
                 icon: res.status,
