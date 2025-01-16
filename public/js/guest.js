@@ -31,7 +31,7 @@ $("#SearchMemberForm").submit((e) => {
                     let name = member.firstname + " " + member.middlename + " " + member.lastname;
                     let pbno = member.pbno != null ? member.pbno : "No Data";
                     let memid = member.memid != null ? member.memid : "No Data";
-                    let verifyElement = $("<div class='row border border-dark p-1 mb-2'><div class='col-12'><p class='font-weight-bold mb-0'><b class='text-danger'>Name:</b> "+name+"</p><p class='font-weight-bold mb-0'><b class='text-danger'>Member Id:</b> "+pbno+"</p><p class='font-weight-bold mb-0'><b class='text-danger'>Pb No:</b> "+memid+"</p><button class='btn btn-primary font-weight-bold float-right'>Verify</button></div></div>");
+                    let verifyElement = $("<div class='row border border-dark p-1 mb-2'><div class='col-12'><p class='font-weight-bold mb-0'><b class='text-danger'>Name:</b> "+name+"</p><p class='font-weight-bold mb-0'><b class='text-danger'>Member Id:</b> "+memid+"</p><p class='font-weight-bold mb-0'><b class='text-danger'>Pb No:</b> "+pbno+"</p><button class='btn btn-primary font-weight-bold float-right'>Verify</button></div></div>");
                     $(verifyElement).find("button").click((e) => {
                         let memidPbno = member.memid != null ? member.memid : member.pbno;
                         $("#generateQrCode").find("input[name='memberId']").val(member.id);
