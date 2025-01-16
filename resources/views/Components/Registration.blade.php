@@ -37,7 +37,7 @@
     
                             <label for="birthdate">Birthdate</label>
                             <div class="input-group mb-3">
-                                <input type="date" class="form-control" id="birthdate" name="birthdate" autocomplete="false" required autofocus>
+                                <input type="text" class="form-control font-weight-bold" placeholder="mm/dd/yyyy" id="birthdate" name="birthdate" autocomplete="false" required autofocus>
                             </div>
 
                             <div class="row">
@@ -57,7 +57,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-center align-items-center flex-column">
-                        <h5 class="font-weight-bold text-success">QR code successfully generated.</h5>
+                        <h5 class="font-weight-bold text-success">You are now registered. Please show this QR code at the supplies section to claim your giveaways. Thank you!</h5>
                         <div id="qrcodeCanvas"></div>
                         <button type="submit" class="btn btn-primary font-weight-bold w-25" id="qrCodeOkBtn">OK</button>
                     </div>

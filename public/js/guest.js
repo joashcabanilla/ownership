@@ -40,6 +40,12 @@ $("#SearchMemberForm").submit((e) => {
                         $(".qrcodeContainer").removeClass("d-none");
                         $(".verifyContainer").empty();
                         $(".titleVerify").text("Please input your birthdate");
+                        $("#birthdate").datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            minDate: new Date(1910, 0, 1),
+                            yearRange: "1910:+0",
+                        });
                     });
                     $(".verifyContainer").append(verifyElement);
                 });

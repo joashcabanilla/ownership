@@ -43,7 +43,8 @@ class MemberModel extends Model
     function saveQrcode($data){
         $result["status"] = "success";
         $member = $this->find($data->memberId);
-        if($member->birthdate == $data->birthdate){
+        $birthdate = date("Y-m-d", strtotime($data->birthdate));
+        if($member->birthdate == $birthdate){
             $qrcode = Crypt::encrypt($member->id);
             $member->update(["qrcode" => $qrcode]);
             $qrCodeOptions = file_get_contents(public_path('data/options.json'));
