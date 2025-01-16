@@ -13,13 +13,10 @@ use App\Classes\ReportClass;
 //Model
 use App\Models\User;
 use App\Models\MemberModel;
-use App\Models\GiftCheckModel;
-use App\Models\GiveawayModel;
-use App\Models\TimedepositModel;
 
 class AdminController extends Controller
 {
-    protected $data, $datatable, $userModel, $memberModel, $giftCheckModel, $giveawayModel, $timeDepositModel, $reportClass;
+    protected $data, $datatable, $userModel, $memberModel, $reportClass;
 
     public function __construct()
     {
@@ -29,9 +26,6 @@ class AdminController extends Controller
         $this->datatable = new DataTableClass();
         $this->memberModel = new MemberModel();
         $this->reportClass = new ReportClass();
-        $this->giftCheckModel = new GiftCheckModel();
-        $this->giveawayModel = new GiveawayModel();
-        $this->timeDepositModel = new TimedepositModel();
     }
 
     function Users(){
@@ -71,13 +65,6 @@ class AdminController extends Controller
         $this->data["tab"] = "Share Capital";
         $this->data["branchList"] = $this->memberModel->branchList();
         return view('Components.Giveaway',$this->data);
-    }
-
-    function Timedeposit(){
-        $this->data["titlePage"] = "GIVEAWAY | Time Deposit";
-        $this->data["tab"] = "Time Deposit";
-        $this->data["branchList"] = $this->memberModel->branchList();
-        return view('Components.Timedeposit',$this->data);
     }
 
     function Logout(Request $request){
@@ -133,50 +120,12 @@ class AdminController extends Controller
 
         return $result;
     }
-
-    function memberTable(Request $request){
-        return $this->datatable->memberTable($request->all());
-    }
-
+    
     function createUpdateMember(Request $request){
         return $this->memberModel->createUpdateMember($request->all());
     }
 
-    function deleteMember(Request $request){
-        return $this->memberModel->find($request->id)->delete();
-    }
-
-    function getMember(Request $request){
-        $result = array();
-        $result["member"] = $this->memberModel->getMember($request->id);
-        $result["giftCheckSetup"] = $this->giftCheckModel->all();
-        return $result;
-    }
-
     function generateReport(Request $request){
         return $this->reportClass->generateReport($request->all());
-    }
-
-    function receivedGiveaway(Request $request){
-        return $this->giveawayModel->receivedGiveaway($request->all());
-    }
-
-    function timedepositTable(Request $request){
-        return $this->datatable->timedepositTable($request->all());        
-    }
-
-    function addTimedepositMember(Request $request){
-        return $this->timeDepositModel->addTimedepositMember($request->all());
-    }
-
-    function getTimedepositMember(Request $request){
-        $result = array();
-        $result["member"] = $this->timeDepositModel->getMember($request->id);
-        $result["giftCheckSetup"] = $this->giftCheckModel->all();
-        return $result;
-    }
-
-    function updateMemberStatus(Request $request){
-        return $this->memberModel->find($request->id)->update(["status" => $request->status]);
     }
 }

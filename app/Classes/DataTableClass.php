@@ -7,19 +7,15 @@ use Illuminate\Support\Facades\Auth;
 //Model
 use App\Models\User;
 use App\Models\MemberModel;
-use App\Models\GiveawayModel;
-use App\Models\TimedepositModel;
 
 class DataTableClass
 {
-    protected $userModel, $memberModel, $giveawayModel, $timedepositModel;
+    protected $userModel, $memberModel;
 
     function __construct()
     {
         $this->userModel = new User();
         $this->memberModel = new MemberModel();
-        $this->giveawayModel = new GiveawayModel();
-        $this->timedepositModel = new TimedepositModel();
     }
 
     function getAllDatabaseTable(){
@@ -143,86 +139,6 @@ class DataTableClass
                 </div>
               </div>";
             }]
-        ];
-
-        $params = array(
-            "var" => $var,
-            "columns" => $columns,
-            "sql" => $query  
-        );
-        
-        return $this->processTable($params);
-    }
-    
-    function memberTable($data){
-        $var = (object) $data;
-        $receivedMemberList = $this->giveawayModel->receivedMemberList("sharecapital");
-        $memberIdList = array_keys($receivedMemberList);
-        $query = $this->memberModel->memberTable($var, $memberIdList);
-
-        $columns = [
-            ['db' => 'id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
-            ['db' => 'memid', 'dt' => 1],
-            ['db' => 'pbno', 'dt' => 2],
-            ['db' => 'name', 'dt' => 3,'formatter' => function($name){
-                return strtoupper($name);
-            }],
-            ['db' => 'status', 'dt' => 4,'formatter' => function($status){
-                $status = $status != "MIGS" ? "NON-MIGS" : $status;
-                $color = $status != "MIGS" ? "border border-danger text-danger" : "border border-success text-success";
-                return "<p style='font-size: 0.9rem !important;' class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".$status."</p>";
-            }],
-            ['db' => 'branch', 'dt' => 5,'formatter' => function($branch){
-                return strtoupper($branch);
-            }],
-            ['db' => 'id', 'dt' => 6,'formatter' => function($id) use($receivedMemberList){
-                return isset($receivedMemberList[$id]) ? date("m/d/Y h:i A",strtotime($receivedMemberList[$id]["dateReceived"])) : "";
-            }],
-            ['db' => 'id', 'dt' => 7, 'formatter' => function($id) use($receivedMemberList){
-                if(!isset($receivedMemberList[$id])){    
-                    return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."'><i class='fas fa-edit' aria-hidden='true'></i></button>";   
-                }
-                
-                return "<p style='font-size: 0.9rem !important;' class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>RECEIVED</p>";
-            }],
-        ];
-
-        $params = array(
-            "var" => $var,
-            "columns" => $columns,
-            "sql" => $query  
-        );
-        
-        return $this->processTable($params);
-    }
-
-    function timedepositTable($data){
-        $var = (object) $data;
-        $receivedMemberList = $this->giveawayModel->receivedMemberList("timedeposit");
-        $memberIdList = array_keys($receivedMemberList);
-        $query = $this->timedepositModel->timedepositTable($var, $memberIdList);
-
-        $columns = [
-            ['db' => 'id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
-            ['db' => 'name', 'dt' => 1,'formatter' => function($name){
-                return strtoupper($name);
-            }],
-            ['db' => 'timedeposit', 'dt' => 2,'formatter' => function($timedeposit){
-                return "₱". number_format($timedeposit, 2, '.', ',');
-            }],
-            ['db' => 'branch', 'dt' => 3,'formatter' => function($branch){
-                return strtoupper($branch);
-            }],
-            ['db' => 'id', 'dt' => 4,'formatter' => function($id) use($receivedMemberList){
-                return isset($receivedMemberList[$id]) ? date("m/d/Y h:i A",strtotime($receivedMemberList[$id]["dateReceived"])) : "";
-            }],
-            ['db' => 'id', 'dt' => 5, 'formatter' => function($id) use($receivedMemberList){
-                if(!isset($receivedMemberList[$id])){    
-                    return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."'><i class='fas fa-edit' aria-hidden='true'></i></button>";   
-                }
-                
-                return "<p style='font-size: 0.9rem !important;' class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>RECEIVED</p>";
-            }],
         ];
 
         $params = array(

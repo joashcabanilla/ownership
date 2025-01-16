@@ -43,10 +43,11 @@ class MemberModel extends Model
         $result["status"] = "success";
         $member = $this->find($data->memberId);
         if($member->birthdate == $data->birthdate){
-            $member->update(["qrcode" => Crypt::encrypt($member->id)]);
+            $qrcode = Crypt::encrypt($member->id);
+            $member->update(["qrcode" => $qrcode]);
             $qrCodeOptions = file_get_contents(public_path('data/options.json'));
             $qrCodedata = json_decode($qrCodeOptions, true);
-            $qrCodedata["data"] = "https://ownership.novadeci.com/admin/register?qrcode=eyJpdiI6IlZobDdnUERobW1abHBVVVlxdEpRckE9PSIsInZhbHVlIjoiYitqUnJ4TnhMSXNqOUNnQUEvQlBkZz09IiwibWFjIjoiOWZhZDY0OWY5ZTBlZGJiMDc5MmFkZGM0MGI1MmUwZDY5YzIyZmE4MDhlN2IwM2RlM2Q0YjgxZjQzNGUzYThlNyIsInRhZyI6IiJ9";
+            $qrCodedata["data"] = "https://ownership.novadeci.com/admin/register?qrcode=".$qrcode;
             $result["qrcode"] = [
                 "data" => $qrCodedata,
                 "name" => !empty($member->memid) ? $member->memid : $member->pbno,

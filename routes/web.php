@@ -20,6 +20,7 @@ Route::middleware(['guest'])->group(
     function(){
         //get route
         Route::get('/', [GuestController::class, 'Index'])->name('guest.index');
+        Route::get('/login', [GuestController::class, 'Login'])->name('guest.login');
 
         //post route
         Route::post('searchAccount', [GuestController::class, 'searchAccount']);
@@ -32,8 +33,8 @@ Route::prefix('admin')->middleware(['auth'])->group(
         //get route
         Route::get('/users', [AdminController::class, 'Users'])->name('admin.users');
         Route::get('/members', [AdminController::class, 'Members'])->name('admin.members');
-        Route::get('/timedeposit', [AdminController::class, 'Timedeposit'])->name('admin.timedeposit');
         Route::get('/maintenance', [AdminController::class, 'Maintenance'])->name('admin.maintenance');
+        Route::get('/register', [AdminController::class, 'RegisterQrcode'])->name('admin.register');
 
         //post route
         Route::post('/logout', [AdminController::class, 'Logout']);
@@ -44,14 +45,7 @@ Route::prefix('admin')->middleware(['auth'])->group(
         Route::post('/batchInsertData', [AdminController::class, 'batchInsertData']);
         Route::post('/memberTable', [AdminController::class, 'memberTable']);
         Route::post('/createUpdateMember', [AdminController::class, 'createUpdateMember']);
-        Route::post('/deleteMember', [AdminController::class, 'deleteMember']);
         Route::post('/getMember', [AdminController::class, 'getMember']);
         Route::post('/generateReport', [AdminController::class, 'generateReport'])->name('admin.report');
-        Route::post('/updatePbNoMemId', [AdminController::class, 'updatePbNoMemId']);
-        Route::post('/receivedGiveaway', [AdminController::class, 'receivedGiveaway']);
-        Route::post('/timedepositTable', [AdminController::class, 'timedepositTable']);
-        Route::post('/addTimedepositMember', [AdminController::class, 'addTimedepositMember']);
-        Route::post('/getTimedepositMember', [AdminController::class, 'getTimedepositMember']);
-        Route::post('/updateMemberStatus', [AdminController::class, 'updateMemberStatus']);
     }
 );

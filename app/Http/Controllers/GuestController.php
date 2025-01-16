@@ -25,6 +25,11 @@ class GuestController extends Controller
         return view('Components.Registration',$this->data);
     }
 
+    function Login(){
+        $this->data["titlePage"] = "OWNERSHIP | Login";
+        return view('Components.Login',$this->data);
+    }
+
     function searchAccount(Request $request){
         return $this->memberModel->searchAccount($request->search);
     }
