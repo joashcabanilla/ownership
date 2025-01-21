@@ -1,7 +1,7 @@
 <div class="sidebar">
     <nav>
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            @if(Auth::user()->user_type == "admin" && strtolower(Auth::user()->username) != "manager")
+            @if(Auth::user()->user_type == "admin")
                 <li class="nav-item mt-2">
                     <a href="{{route("admin.users")}}" class="nav-link nav-main-tab tabLink {{$tab != "users" ?: "active font-weight-bold"}}">
                         <i class="nav-icon fas fa-users fa-lg"></i>
@@ -15,23 +15,20 @@
                         <p>Maintenance</p>
                     </a>
                 </li>
-            @endif
 
-            <li class="nav-item mt-2">
-                <a href="{{route("admin.members")}}" class="nav-link nav-main-tab tabLink {{$tab != "Share Capital" ?: "active font-weight-bold"}}">
-                    <i class="nav-icon fas fa-gift"></i>
-                    <p>SC Giveaway</p>
-                </a>
-            </li>
-            
-            @if(strtolower(Auth::user()->username) != "manager")
                 <li class="nav-item mt-2">
-                    <a href="{{route("admin.timedeposit")}}" class="nav-link nav-main-tab tabLink {{$tab != "Time Deposit" ?: "active font-weight-bold"}}">
-                        <i class="nav-icon fas fa-gift"></i>
-                        <p>TD Giveaway</p>
+                    <a href="{{route("admin.dashboard")}}" class="nav-link nav-main-tab tabLink {{$tab != "dashboard" ?: "active font-weight-bold"}}">
+                        <i class="nav-icon fa fa-th-large fa-lg"></i>
+                        <p>Dashboard</p>
                     </a>
                 </li>
             @endif
+            <li class="nav-item mt-2">
+                <a href="{{route("admin.members")}}" class="nav-link nav-main-tab tabLink {{$tab != "members" ?: "active font-weight-bold"}}">
+                    <i class="nav-icon fas fa-users fa-lg"></i>
+                    <p>Members</p>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

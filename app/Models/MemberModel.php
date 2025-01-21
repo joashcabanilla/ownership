@@ -89,4 +89,52 @@ class MemberModel extends Model
         ]);
         return $result;
     }
+
+    function getDashboardData($scheduleList){
+        $result = $memberList = $listPerDay = array();
+        $totalRegistered = $totalMembers = 0;
+
+        $members = $this->get();
+        foreach($members as $member){
+            $totalMembers++;
+            if(!empty($member->updated_by)){
+                $date = date("Y-m-d",strtotime($member->received_at));
+                $time = date("A",strtotime($member->received_at));
+                $memberList[$member->branch][$date][$time][] = $member->id;
+                $listPerDay[$date][$time][] = $member->id;
+                $totalRegistered++;
+            }
+        }
+                
+        $branchList = $this->branchList();
+        ksort($branchList);
+        $result["branchList"] = $branchList;
+
+        foreach($branchList as $branch){
+            foreach($scheduleList as $date => $timeData){
+                foreach($timeData as $time => $day){
+                    $time = date("A",strtotime($time));
+                    
+                    $result["totalPerDay"][$day][$time] = isset($listPerDay[$date][$time]) ? count($listPerDay[$date][$time]): 0;
+
+                    $result["totalPerBranch"][$branch][$day][$time] = isset($memberList[$branch][$date][$time]) ? count($memberList[$branch][$date][$time]) : 0;
+                } 
+            }
+        }
+
+        $result["totalMembers"] = number_format($totalMembers,0,".",",");
+        $result["totalRegistered"] = number_format($totalRegistered,0,".",",");
+        return $result;
+    }
+
+    function branchList(){
+        $result = array();
+        $branchList = $this->select("branch")->distinct()->get();
+        if(!empty($branchList)){
+            foreach($branchList as $branch){
+                $result[$branch->branch] = $branch->branch;
+            }
+        }
+        return $result;
+    }
 }

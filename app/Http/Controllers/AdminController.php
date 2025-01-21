@@ -14,10 +14,11 @@ use App\Classes\ReportClass;
 //Model
 use App\Models\User;
 use App\Models\MemberModel;
+use App\Models\ScheduleModel;
 
 class AdminController extends Controller
 {
-    protected $data, $datatable, $userModel, $memberModel, $reportClass;
+    protected $data, $datatable, $userModel, $memberModel, $scheduleModel, $reportClass;
 
     public function __construct()
     {
@@ -26,17 +27,18 @@ class AdminController extends Controller
         $this->userModel = new User();
         $this->datatable = new DataTableClass();
         $this->memberModel = new MemberModel();
+        $this->scheduleModel = new ScheduleModel();
         $this->reportClass = new ReportClass();
     }
 
     function Users(){
-        $this->data["titlePage"] = "GIVEAWAY | Users";
+        $this->data["titlePage"] = "OWNERSHIP | Users";
         $this->data["tab"] = "users"; 
         return view('Components.Users',$this->data);
     }
 
     function Maintenance(){
-        $this->data["titlePage"] = "GIVEAWAY | Maintenance";
+        $this->data["titlePage"] = "OWNERSHIP | Maintenance";
         $this->data["tab"] = "maintenance";
 
         $tableArray = $this->datatable->getAllDatabaseTable();
@@ -49,8 +51,6 @@ class AdminController extends Controller
         $this->data["tables"] = $tableList;
 
         $this->data['reportList'] = [
-            "sharecapitalsummary" => "Share Capital Summary",
-            "timedepositsummary" => "Time Deposit Summary"
         ];
 
         $userList = $this->userModel->getUser();
@@ -61,11 +61,12 @@ class AdminController extends Controller
         return view('Components.Maintenance',$this->data);
     }
 
-    function Members(){
-        $this->data["titlePage"] = "GIVEAWAY | Share Capital";
-        $this->data["tab"] = "Share Capital";
-        $this->data["branchList"] = $this->memberModel->branchList();
-        return view('Components.Giveaway',$this->data);
+    function Dashboard(){
+        $this->data["titlePage"] = "OWNERSHIP | Dashboard";
+        $this->data["tab"] = "dashboard"; 
+        $this->data["scheduleList"] = $this->scheduleModel->scheduleList();
+        $this->data["data"] = $this->memberModel->getDashboardData($this->data["scheduleList"]);
+        return view('Components.Dashboard',$this->data);
     }
 
     function Logout(Request $request){
@@ -138,5 +139,11 @@ class AdminController extends Controller
 
     function registerMember(Request $request){
         return $this->memberModel->registerMember($request->memberId);
+    }
+
+    function getDashboardData(){
+        $this->data["scheduleList"] = $this->scheduleModel->scheduleList();
+        $this->data["data"] = $this->memberModel->getDashboardData($this->data["scheduleList"]);
+        return $this->data;
     }
 }

@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware(['auth'])->group(
         Route::get('/members', [AdminController::class, 'Members'])->name('admin.members');
         Route::get('/maintenance', [AdminController::class, 'Maintenance'])->name('admin.maintenance');
         Route::get('/register', [AdminController::class, 'RegisterQrcode'])->name('admin.register');
+        Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('admin.dashboard');
 
         //post route
         Route::post('/logout', [AdminController::class, 'Logout']);
@@ -49,5 +50,6 @@ Route::prefix('admin')->middleware(['auth'])->group(
         Route::post('/getMember', [AdminController::class, 'getMember']);
         Route::post('/generateReport', [AdminController::class, 'generateReport'])->name('admin.report');
         Route::post('/registerMember', [AdminController::class, 'registerMember']);
+        Route::post('/getDashboardData', [AdminController::class, 'getDashboardData']);
     }
 );
