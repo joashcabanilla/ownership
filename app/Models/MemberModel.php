@@ -137,4 +137,39 @@ class MemberModel extends Model
         }
         return $result;
     }
+
+    function memberTable($data){
+        $query = $this->select(
+            "id",
+            "memid",
+            "pbno",
+            "branch",
+            DB::raw("UPPER(CONCAT(COALESCE(firstname, ''), ' ', COALESCE(middlename, ''), ' ', COALESCE(lastname, ''))) as name"),
+            "updated_by",
+            "received_at"
+        );
+
+        if(!empty($data->filterSearch)){
+            $search = $data->filterSearch;
+            $query->where(function($q) use($search){
+                $q->orWhereRaw("UPPER(CONCAT(COALESCE(firstname, ''), ' ', COALESCE(middlename, ''), ' ', COALESCE(lastname, ''))) LIKE '%".strtoupper($search)."%'");
+                $q->orWhereRaw("memid LIKE '%".$search."%'");
+                $q->orWhereRaw("pbno LIKE '%".$search."%'");
+            });
+        }
+
+        $query = !empty($data->filterBranch) ? $query->where("branch", $data->filterBranch) : $query;
+
+        if(!empty($data->filterStatus)){
+            if($data->filterStatus == "registered"){
+                $query = $query->whereNotNull("updated_by",); 
+            }else{
+                $query = $query->whereNull("updated_by");
+            }
+        }
+
+        $query = $query->orderBy("id", "ASC");
+
+        return $query;
+    }
 }

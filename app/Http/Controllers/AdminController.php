@@ -146,4 +146,17 @@ class AdminController extends Controller
         $this->data["data"] = $this->memberModel->getDashboardData($this->data["scheduleList"]);
         return $this->data;
     }
+
+    function Members(){
+        $this->data["titlePage"] = "OWNERSHIP | Members";
+        $this->data["tab"] = "members"; 
+        $branchList = $this->memberModel->branchList();
+        ksort($branchList);
+        $this->data["branchList"] = $branchList;
+        return view('Components.Members',$this->data);
+    }
+
+    function memberTable(Request $request){
+        return $this->datatable->memberTable($request->all());
+    }
 }

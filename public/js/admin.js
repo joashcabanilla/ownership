@@ -260,3 +260,56 @@ $('#userTable').on('click', '.activateBtn', (e) => {
     });
 });
 
+let memberTable = $('#memberTable').on('init.dt', function () {
+    $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+}).DataTable({
+    ordering: false,
+    serverSide: true,
+    dom: 'rtip',
+    columnDefs: [
+        { targets: 0, width: '1%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 1, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 2, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 3, width: '15%', className: "text-left align-middle font-weight-bold p-2" },
+        { targets: 4, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 5, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 6, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 7, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
+    ],
+    ajax: {
+        url: '/admin/memberTable',
+        type: 'POST',
+        data: function (d) {
+            d.filterBranch = $("#branchFilter").val();
+            d.filterStatus = $("#statusFilter").val();
+            d.filterSearch = $("#memberfilterSearch").val();
+        },
+        beforeSend: () => {
+            $(".dataTables_processing").removeClass("d-none");
+        },
+        complete: () => {
+            $(".dataTables_processing").addClass("d-none");
+        }
+    }
+});
+
+$("#branchFilter").change((e) => {
+    memberTable.draw();
+});
+
+$("#statusFilter").change((e) => {
+    memberTable.draw();
+});
+
+$("#memberfilterSearch").keyup((e) => {
+    memberTable.draw();
+});
+
+$("#memberSearchBtn").click((e) => {
+    memberTable.draw();
+});
+
+$("#memberClearFilter").click((e) => {
+    $("#branchFilter,#statusFilter,#memberfilterSearch").val("");
+    memberTable.draw();
+});

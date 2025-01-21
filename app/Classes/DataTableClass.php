@@ -2,7 +2,6 @@
 
 namespace App\Classes;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 //Model
 use App\Models\User;
@@ -139,6 +138,48 @@ class DataTableClass
                 </div>
               </div>";
             }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function memberTable($data){
+        $var = (object) $data;
+        $userList = array();
+        $query = $this->memberModel->memberTable($var);
+        $users = $this->userModel->get();
+        foreach($users as $user){
+            $userList[$user->id] = strtoupper($user->name);
+        }
+        $columns = [
+            ['db' => 'id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+            ['db' => 'memid', 'dt' => 1],
+            ['db' => 'pbno', 'dt' => 2],
+            ['db' => 'name', 'dt' => 3,'formatter' => function($name){
+                return strtoupper($name);
+            }],
+            ['db' => 'branch', 'dt' => 4,'formatter' => function($branch){
+                return strtoupper($branch);
+            }],
+            ['db' => 'received_at', 'dt' => 5,'formatter' => function($d){
+                return !empty($d) ? date("m/d/Y h:i:s A", strtotime($d)) : "";
+            }],
+            ['db' => 'updated_by', 'dt' => 6,'formatter' => function($d) use($userList){
+                return !empty($d) ? $userList[$d]: "";
+            }],
+            ['db' => 'id', 'dt' => 7, 'formatter' => function($d,$drow){
+                if(empty($drow["updated_by"])){    
+                    return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";   
+                }
+                
+                return "<p style='font-size: 0.9rem !important;' class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>REGISTERED</p>";
+            }],
         ];
 
         $params = array(
