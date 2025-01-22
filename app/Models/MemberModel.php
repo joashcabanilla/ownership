@@ -172,4 +172,19 @@ class MemberModel extends Model
 
         return $query;
     }
+
+    function createUpdateMember($data){
+       return $this->updateOrCreate([
+            "id" => isset($data["id"]) ? $data["id"] : 0
+        ],$data);
+    }
+
+    function getMember($id = ""){
+        if(!empty($id)){
+            $query = $this->find($id);
+        }else{
+            $query = $this->get();
+        }
+        return $query;
+    }
 }

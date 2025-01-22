@@ -313,3 +313,135 @@ $("#memberClearFilter").click((e) => {
     $("#branchFilter,#statusFilter,#memberfilterSearch").val("");
     memberTable.draw();
 });
+
+const memberModal = (action) => {
+    if(action == "add"){
+        $("#memberModalLabel").text("Add Member");
+        $('#addMemberForm')[0].reset();
+        $("#memberModal").find(".addModal").removeClass("d-none");
+        $("#memberModal").find(".editModal").addClass("d-none");
+    }else{
+        $("#memberModalLabel").text("Member Registration");
+        $('#editMemberForm')[0].reset();
+        $("#memberModal").find(".editModal").removeClass("d-none");
+        $("#memberModal").find(".addModal").addClass("d-none");
+    }
+};
+
+$("#memberAddBtn").click((e) => {
+    memberModal("add");
+    $("#memberModal").modal("show");
+});
+
+$('#memberTable').on('click', '.editBtn', (e) => {
+    memberModal("edit");
+    $.LoadingOverlay("show");
+    let id = $(e.currentTarget).data("id");
+    $.ajax({
+        type: "POST",
+        url: "/admin/getMember",
+        data: {id:id},
+        success: (res) => {
+            $.LoadingOverlay("hide");
+            $("#editMemberForm").find("input").each((key,element) => {
+                let keyName = $(element).attr("name");
+                if(keyName == "name"){
+                    let firstname = res.firstname != null ? res.firstname : "";
+                    let middlename = res.middlename != null ? res.middlename : "";
+                    let lastname = res.lastname != null ? res.lastname : "";
+                    $(element).val(firstname + " " + middlename + " " + lastname);
+                }else{
+                    $(element).val(res[keyName]);
+                }
+            });
+            $("#memberModal").modal("show");
+        }
+    });
+});
+
+$("#memberSubmitBtn").click((e) => {
+    if($("#memberModalLabel").text() == "Add Member"){
+        $('#addMemberForm').find("button").trigger("click");
+    }else{
+        $('#editMemberForm').find("button").trigger("click");
+    }
+});
+
+$("#addMemberForm").submit((e) => {
+    e.preventDefault();
+    $.LoadingOverlay("show");
+    $.ajax({
+        type: "POST",
+        url: "/admin/createUpdateMember",
+        data: $(e.currentTarget).serializeArray(),
+        success: (res) => {
+            $.LoadingOverlay("hide");
+            $("#memberModal").modal("hide");
+            Swal.fire({
+                title: "Successfully Saved.",
+                icon: res.status,
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                memberTable.ajax.reload(null, false);
+            });
+        }
+    });
+});
+
+$("#editMemberForm").submit((e) => {
+    e.preventDefault();
+    $.LoadingOverlay("show");
+    $.ajax({
+        type: "POST",
+        url: "/admin/registerMember",
+        data: {memberId:$("#editMemberForm").find("input[name='id']").val()},
+        success: (res) => {
+            $.LoadingOverlay("hide");
+            $("#memberModal").modal("hide");
+            Swal.fire({
+                title: "Successfully Registered.",
+                icon: res.status,
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                memberTable.ajax.reload(null, false);
+            });
+            
+        }
+    });
+});
+
+$("#saveBirthdateBtn").click((e) => {
+    e.preventDefault();
+    $.LoadingOverlay("show");
+    $.ajax({
+        type: "POST",
+        url: "/admin/createUpdateMember",
+        data: $("#editMemberForm").serializeArray(),
+        success: (res) => {
+            $.LoadingOverlay("hide");
+            Swal.fire({
+                title: "Birthdate successfully saved.",
+                icon: res.status,
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                memberTable.ajax.reload(null, false);
+            });
+        }
+    });
+});
+
+$("#editBirthdate").keypress((e) => {
+    if(e.keyCode == 13){
+        $("#saveBirthdateBtn").trigger("click");
+    }
+});
+
+$(".giveawayItems").click((e) => {
+    $(".giveawayItems").prop("checked", true);
+});

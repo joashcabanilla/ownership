@@ -159,4 +159,8 @@ class AdminController extends Controller
     function memberTable(Request $request){
         return $this->datatable->memberTable($request->all());
     }
+
+    function getMember(Request $request){
+        return $this->memberModel->getMember($request->id);
+    }
 }

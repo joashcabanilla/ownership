@@ -87,7 +87,7 @@
                                 <th>Pbno</th>
                                 <th>Name</th>
                                 <th>Branch</th>
-                                <th>Date Received</th>
+                                <th>Date & Time</th>
                                 <th>Registered By</th>
                                 <th>Action</th>
                             </tr>
@@ -103,15 +103,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold" id="memberModalLabel">Add Member</h5>
+                <h5 class="modal-title font-weight-bold" id="memberModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="modal-closeIcon" aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="memberForm" method="POST">
-                    <input type="hidden" name="id">
-                    <input type="hidden" name="updated_by">
+            <div class="modal-body addModal">
+                <form id="addMemberForm" method="POST">
                     <div class="row">
                             <div class="col-12">
                                 <label for="memberBranch">Branch</label>
@@ -119,7 +117,7 @@
                                     <select class="form-control" id="memberBranch" name="branch" required autofocus>
                                         <option value=""> -- Select Branch -- </option>
                                         @foreach($branchList as $branch)
-                                            <option value=""></option>
+                                            <option value="{{$branch}}">{{strtoupper($branch)}}</option>
                                         @endforeach
                                     </select>
                                 </div>  
@@ -139,17 +137,6 @@
                                     <input type="text" class="form-control" placeholder="Pbno" id="pbno" name="pbno" autocomplete="false">
                                     <div class="invalid-feedback font-weight-bold"></div>
                                 </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="memberStatus">Status</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="memberStatus" name="status" required autofocus>
-                                        <option value=""> -- Select Status -- </option>
-                                            <option value="MIGS">MIGS</option>
-                                            <option value="NON-MIGS">NON-MIGS</option>
-                                    </select>
-                                </div>  
                             </div>
 
                             <div class="col-12">
@@ -177,19 +164,79 @@
                             </div>
 
                             <div class="col-12">
-                                <label for="sharecapital">Share Capital</label>
+                                <label for="lastname">Birthdate</label>
                                 <div class="form-group">
-                                    <input type="number" step="0.01" min="0.00" class="form-control" placeholder="0.00" id="sharecapital" name="sharecapital" autocomplete="false">
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" autocomplete="false" required>
                                     <div class="invalid-feedback font-weight-bold"></div>
-                                </div> 
+                                </div>
                             </div>
                     </div>
-
-                    <button type="submit" class="d-none" id="memberSubmitBtn">Submit</button>
+                    <button class="d-none">Submit</button>
                 </form>
             </div>
+            <div class="modal-body editModal">
+                <form id="editMemberForm" method="POST">
+                    <input type="hidden" name="id">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editMemid">Memid</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control font-weight-bold" id="editMemid" name="memid" autocomplete="false" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="editPbno">Pbno</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control font-weight-bold" id="editPbno" name="pbno" autocomplete="false" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="editName">Name</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control font-weight-bold" id="editName" name="name" autocomplete="false" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="editBranch">Branch</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control font-weight-bold" id="editBranch" name="branch" autocomplete="false" readonly>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="editBirthdate">Birthdate</label>
+                            <div class="form-group">
+                                <input type="date" class="form-control font-weight-bold" id="editBirthdate" name="birthdate" autocomplete="false" required autofocus>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <label for="saveBirthdateBtn">&nbsp;</label>
+                            <button class="form-control btn btn-sm btn-primary" id="saveBirthdateBtn"><i class="fas fa-save" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <button class="d-none">Submit</button>
+                </form>
+                <div class="row mt-1">
+                    <div class="col-12">
+                        <label for="giveawayItem1" class="font-weight-bold">Ownership Giveaway</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="icheck-success">
+                            <input type="checkbox" checked class=" form-control giveawayItems" id="giveawayItem1">
+                            <label class="font-weight-bold" for="giveawayItem1">1 Kg of rice</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="icheck-success">
+                            <input type="checkbox" checked class=" form-control giveawayItems" id="giveawayItem2">
+                            <label class="font-weight-bold" for="giveawayItem2">100 Food Stub</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+                <button class="btn btn-primary font-weight-bold" id="memberSubmitBtn">Submit</button>
                 <a type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancel</a>
             </div>
         </div>
