@@ -70,7 +70,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <form id="generateReport" method="POST" target="_blank" action="{{route('admin.report')}}">
                                 @csrf
-                                <input type="hidden" name="report" value="staffShareCapitalGiveaway">
+                                <input type="hidden" name="report" value="staffRegisteredMembersList">
                                 <button type="submit" class="btn btn-lg btn-primary float-lg-right font-weight-bold" id="memberReport">
                                     <i class="fas fa-file-alt" aria-hidden="true"></i> Generate Report
                                 </button>

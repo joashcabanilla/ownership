@@ -168,7 +168,7 @@ class DataTableClass
                 return strtoupper($branch);
             }],
             ['db' => 'received_at', 'dt' => 5,'formatter' => function($d){
-                return !empty($d) ? date("m/d/Y h:i:s A", strtotime($d)) : "";
+                return !empty($d) ? date("m/d/Y h:i A", strtotime($d)) : "";
             }],
             ['db' => 'updated_by', 'dt' => 6,'formatter' => function($d) use($userList){
                 return !empty($d) ? $userList[$d]: "";
