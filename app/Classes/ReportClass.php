@@ -51,7 +51,7 @@ class ReportClass
                 "name" => $firstname." ".$middlename." ".$lastname,
                 "branch" => $member->branch,
                 "updated_by" => $userList[$member->updated_by],
-                "received_at" => date("m/d/Y h:i A", strtotime($member->received_at))
+                "received_at" => date("m/d/Y A", strtotime($member->received_at))
             ];
 
             $date = date("Y-m-d",strtotime($member->received_at));
