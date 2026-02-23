@@ -167,8 +167,10 @@ class DataTableClass
             ['db' => 'branch', 'dt' => 4,'formatter' => function($branch){
                 return strtoupper($branch);
             }],
-            ['db' => 'received_at', 'dt' => 5,'formatter' => function($d){
-                return !empty($d) ? date("m/d/Y h:i A", strtotime($d)) : "";
+            ['db' => 'status', 'dt' => 5,'formatter' => function($d){
+                $status = $d != "MIGS" ? "NON-MIGS" : $d;
+                $color = $d != "MIGS" ? "border border-danger text-danger" : "border border-success text-success";
+                return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".$status."</p>";
             }],
             ['db' => 'updated_by', 'dt' => 6,'formatter' => function($d) use($userList){
                 return !empty($d) ? $userList[$d]: "";

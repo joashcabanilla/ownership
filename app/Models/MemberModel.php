@@ -21,6 +21,7 @@ class MemberModel extends Model
         'firstname',
         'middlename',
         'lastname',
+        'status',
         'birthdate',
         'branch',
         'qrcode',
@@ -144,6 +145,7 @@ class MemberModel extends Model
             "memid",
             "pbno",
             "branch",
+            "status",
             DB::raw("UPPER(CONCAT(COALESCE(firstname, ''), ' ', COALESCE(middlename, ''), ' ', COALESCE(lastname, ''))) as name"),
             "updated_by",
             "received_at"

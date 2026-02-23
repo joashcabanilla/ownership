@@ -32,6 +32,7 @@ class DataController extends Controller
                         "lastname" => $member[4],
                         "birthdate" => Carbon::createFromFormat('m/d/Y', $member[5])->format('Y-m-d'),
                         "branch" => $member[6],
+                        "status" => $member[7],
                         "created_at" => Carbon::now()
                     ];
                     $totalRecords++;

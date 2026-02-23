@@ -87,7 +87,7 @@
                                 <th>Pbno</th>
                                 <th>Name</th>
                                 <th>Branch</th>
-                                <th>Date & Time</th>
+                                <th>Status</th>
                                 <th>Registered By</th>
                                 <th>Action</th>
                             </tr>

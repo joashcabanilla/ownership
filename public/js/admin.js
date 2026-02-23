@@ -272,7 +272,7 @@ let memberTable = $('#memberTable').on('init.dt', function () {
         { targets: 2, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
         { targets: 3, width: '15%', className: "text-left align-middle font-weight-bold p-2" },
         { targets: 4, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
-        { targets: 5, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        { targets: 5, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
         { targets: 6, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
         { targets: 7, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
     ],
