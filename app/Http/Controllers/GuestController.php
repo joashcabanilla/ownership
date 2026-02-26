@@ -22,8 +22,9 @@ class GuestController extends Controller
     }
 
     function Index(){
-        $this->data["titlePage"] = "OWNERSHIP | Account";
-        return view('Components.Registration',$this->data);
+        // $this->data["titlePage"] = "OWNERSHIP | Account";
+        // return view('Components.Registration',$this->data);
+        return redirect()->route('guest.login');
     }
 
     function Login(){
