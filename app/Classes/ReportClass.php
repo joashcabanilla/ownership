@@ -39,10 +39,12 @@ class ReportClass
             $userList[$user->id] = strtoupper($user->name);
         }
 
-        $members = !empty($staffId) ? $this->memberModel->where("updated_by",$staffId)->get() : $this->memberModel->whereNotNull("updated_by");
+        $members = !empty($staffId) ? $this->memberModel->where("updated_by",$staffId) : $this->memberModel->whereNotNull("updated_by");
         
         if(!empty($requestData) && !empty($requestData->date) && empty($staffId)){
             $members = $members->whereDate("received_at", $requestData->date)->get();
+        }else{
+            $members = $members->get();
         }
 
         foreach($members as $member){
