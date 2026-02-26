@@ -41,8 +41,8 @@ class ReportClass
 
         $members = !empty($staffId) ? $this->memberModel->where("updated_by",$staffId)->get() : $this->memberModel->whereNotNull("updated_by");
         
-        if(!empty($requestData) && !empty($requestData["date"]) && empty($staffId)){
-            $members = $members->whereDate("received_at", $requestData["date"])->get();
+        if(!empty($requestData) && !empty($requestData->date) && empty($staffId)){
+            $members = $members->whereDate("received_at", $requestData->date)->get();
         }
 
         foreach($members as $member){
