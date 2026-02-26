@@ -23,7 +23,7 @@ class ReportClass
         $data = (object) $data;
         switch($data->report){
             case "registeredMembersList":
-                $this->registeredMembersList();
+                $this->registeredMembersList("", $data);
             break;
             case "staffRegisteredMembersList":
                 $this->registeredMembersList(Auth::user()->id);
@@ -31,7 +31,7 @@ class ReportClass
         }
     }
 
-    private function registeredMembersList($staffId = ""){
+    private function registeredMembersList($staffId = "", $requestData = array()){
         $data = $registeredList = $userList = $summaryList = $listPerDay = array();
         
         $users = $this->userModel->getUser();
@@ -39,7 +39,11 @@ class ReportClass
             $userList[$user->id] = strtoupper($user->name);
         }
 
-        $members = !empty($staffId) ? $this->memberModel->where("updated_by",$staffId)->get() : $this->memberModel->whereNotNull("updated_by")->get();
+        $members = !empty($staffId) ? $this->memberModel->where("updated_by",$staffId)->get() : $this->memberModel->whereNotNull("updated_by");
+        
+        if(!empty($requestData) && !empty($requestData["date"]) && empty($staffId)){
+            $members = $members->whereDate("received_at", $requestData["date"])->get();
+        }
 
         foreach($members as $member){
             $firstname = !empty($member->firstname) ? $member->firstname : "";

@@ -92,6 +92,13 @@
 
                                         <div class="col-12">
                                             <div class="form-group">
+                                                <label for="selectReport">Date</label>
+                                                <input type="date" class="form-control" id="selectDate" name="date">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
                                                 <label for="selectFormat">Format</label>
                                                 <select class="form-control" id="selectFormat" name="format">
                                                     <option value="excel">Excel</option>
