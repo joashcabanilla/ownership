@@ -110,6 +110,7 @@
             </div>
             <div class="modal-body addModal">
                 <form id="addMemberForm" method="POST">
+                    <input type="hidden" name="status" value="MIGS">
                     <div class="row">
                             <div class="col-12">
                                 <label for="memberBranch">Branch</label>
